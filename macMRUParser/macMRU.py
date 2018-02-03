@@ -30,7 +30,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import ccl_bplist
 from time import gmtime, strftime
-import sys
 import hexdump
 import argparse
 from argparse import RawTextHelpFormatter
@@ -40,13 +39,17 @@ import plistlib
 from mac_alias import Bookmark
 from mac_alias import Alias
 import uuid
+import sys
+
+from macMRUParser import __version__ as ver, _hrule_width
+
 
 def BLOBParser_human(blob):
     #As described in:
     #http://mac-alias.readthedocs.io/en/latest/bookmark_fmt.html
     #http://mac-alias.readthedocs.io/en/latest/alias_fmt.html
     if args.blob_parse_human == True:
-        print "----------------------------------------------------------------------------"
+        print '-' * _hrule_width
         print "Human Readable Parsed BLOB:"
         try:
             b = Bookmark.from_bytes(blob)
@@ -148,11 +151,11 @@ def BLOBParser_human(blob):
             print "\tAlias BLOB: Apple Share Info - Zone \t" + str(a.AppleShareInfo.zone)
         except:
             pass
-        print "----------------------------------------------------------------------------"
+        print '-' * _hrule_width
 
 def BLOBParser_raw(blob):
     if args.blob_parse_raw == True:
-        print "----------------------------------------------------------------------------"
+        print '-' * _hrule_width
         try:
             b = Bookmark.from_bytes(blob)
             print "Raw Parsed Bookmark BLOB:"
@@ -173,18 +176,18 @@ def BLOBParser_raw(blob):
             print a.AppleShareInfo.zone
         except:
             pass
-        print "----------------------------------------------------------------------------"
+        print '-' * _hrule_width
 
 def BLOB_hex(blob):
     if args.blob_hex == True:
-        print "----------------------------------------------------------------------------"
+        print '-' * _hrule_width
         try:
             print "Hexdump of BLOB Data: "
             hexdump_blob =  hexdump.hexdump(blob)
             print hexdump_blob
         except:
             print "No 'bookmark' Key"
-        print "----------------------------------------------------------------------------"
+        print '-' * _hrule_width
 
 def ParseSFL(MRUFile):
     
@@ -211,10 +214,10 @@ def ParseSFL(MRUFile):
                 print"    [Item Number: " + str(n) +  " | Order: " + str(item["order"]) + "] Name:'" + name + "' (URL:'" + item["URL"]['NS.relative'] + "')"
                 
                 #UNCOMMENT FOR UNIQUE IDENTIFIER HEXDUMP
-                #print "----------------------------------------------------------------------------"
+                #print '-' * _hrule_width
                 #print "Hexdump of Unique Identifier: "
                 #print hexdump.hexdump(item["uniqueIdentifier"]["NS.uuidbytes"])
-                #print "----------------------------------------------------------------------------"
+                #print '-' * _hrule_width
                 if "LSSharedFileList.RecentHosts" not in MRUFile:
                     blob = item["bookmark"]
                     BLOBParser_raw(blob)
@@ -272,7 +275,6 @@ def ParseSFL2(MRUFile):
         print "Cannot open file: " + MRUFile
 
 def ParseSFL2_FavoriteVolumes(MRUFile):
-    
     try:
         plistfile = open(MRUFile, "rb")
         plist = ccl_bplist.load(plistfile)
@@ -301,16 +303,16 @@ def ParseSFL2_FavoriteVolumes(MRUFile):
                     uuid = "No 'UUID' Attribute"
                 
                 try:
-                    visability = str(attributes["visibility"])
+                    visibility = str(attributes["visibility"])
                 except:
-                    visability = "No 'Visability' Attribute"
+                    visibility = "No 'Visability' Attribute"
 
                 try:
                     name = attributes["Name"]
                 except:
                     name = "No 'Name' Attribute (Use BLOB parser for name)"
 
-                print "\n    [Item Number: " + str(n) +  " | (UUID:'" + uuid + "') | Visibility: " + visability + "] Name: '" + name + "'"
+                print "\n    [Item Number: " + str(n) +  " | (UUID:'" + uuid + "') | Visibility: " + visibility + "] Name: '" + name + "'"
 
                 if attributes["CustomItemProperties"]:
                     CIP_keys = plist_objects["root"]["NS.objects"][0]["NS.objects"][n]["NS.objects"][1]["NS.keys"]
@@ -663,6 +665,7 @@ def SpotlightShortcuts(MRUFile):
     except:
         print "Cannot open file: " + MRUFile
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='\
@@ -687,16 +690,11 @@ if __name__ == "__main__":
     \n\t- [10.12-]/Users/<username>/Library/Preferences/com.apple.sidebarlists.plist \
     \n\t- [10.13+] /Users/<username>/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.FavoriteVolumes.sfl2\ \
     \n \
-    \n\tVersion: 1.5\
-    \n\tUpdated: 12/10/2017\
-    \n\tAuthor: Sarah Edwards | @iamevltwin | mac4n6.com | oompa@csh.rit.edu\
-    \n\
-    \n\tDependencies:\
-    \n\t\thexdump.py: https://pypi.python.org/pypi/hexdump\
-    \n\t\tccl_bplist.py: https://github.com/cclgroupltd/ccl-bplist\
-    \n\t\tmac_alias: https://pypi.python.org/pypi/mac_alias'
-        , prog='macMRU.py'
+    \n\tAuthor:     Sarah Edwards | @iamevltwin | mac4n6.com | oompa@csh.rit.edu \
+    \n\tCSV Output: Dan O\'Day     | @4n68r      | 4n68r.com  | d@4n68r.com'
+        , prog='macMRUParser.py'
         , formatter_class=RawTextHelpFormatter)
+    parser.add_argument("--csv", help="Create CSV output to file provided as parameter")
     parser.add_argument('--blob_hex', action='store_true', help="Include hex dump of Bookmark BLOBs in standard output (can very verbose!)")
     parser.add_argument('--blob_parse_human', action='store_true', help="Parse the BLOB data in human readable format (can very verbose!)")
     parser.add_argument('--blob_parse_raw', action='store_true', help="Parse the BLOB data in raw format (can very verbose!)")
@@ -705,67 +703,48 @@ if __name__ == "__main__":
 
     MRUDirectory = args.MRU_DIR
 
-    print "###### MacMRU Parser v1.5 ######"
+    print "###### MacMRU Parser v{0} ######".format(ver)
+
+    # args validation
+    if not MRUDirectory or MRUDirectory is None or not os.path.exists(MRUDirectory):
+        print "Invalid file path (path provided does not exist)"
+        sys.exit(1)
+
+    csv_output = False
+    csv_path = None
+    if args.csv and args.csv is not None and len(args.csv.strip()) > 0:
+        csv_output = True
+        csv_path = args.csv
 
     for root, dirs, filenames in os.walk(MRUDirectory):
         for f in filenames:
-            if f.endswith(".sfl") and not fnmatch.fnmatch(f,'*Favorite*.sfl') and not fnmatch.fnmatch(f,'*Project*.sfl') and not fnmatch.fnmatch(f,'*iCloudItems*.sfl'):
-                MRUFile = os.path.join(root,f)
-                print "=============================================================================="
-                print "Parsing: " + MRUFile
-                ParseSFL(MRUFile)
-                print "=============================================================================="
-            elif f.endswith(".sfl2") and not fnmatch.fnmatch(f,'*Favorite*.sfl2') and not fnmatch.fnmatch(f,'*Project*.sfl2') and not fnmatch.fnmatch(f,'*iCloudItems*.sfl2'):
-                MRUFile = os.path.join(root,f)
-                print "=============================================================================="
-                print "Parsing: " + MRUFile
-                ParseSFL2(MRUFile)
-                print "=============================================================================="
-            elif f.endswith("FavoriteVolumes.sfl2"):
-                MRUFile = os.path.join(root,f)
-                print "=============================================================================="
-                print "Parsing: " + MRUFile
-                ParseSFL2_FavoriteVolumes(MRUFile)
-                print "=============================================================================="
-            elif f.endswith(".LSSharedFileList.plist"):
-                MRUFile = os.path.join(root,f)
-                print "=============================================================================="
-                print "Parsing: " + MRUFile
-                ParseLSSharedFileListPlist(MRUFile)
-                print "=============================================================================="
-            elif f == "com.apple.finder.plist":
-                MRUFile = os.path.join(root,f)
-                print "=============================================================================="
-                print "Parsing: " + MRUFile
-                ParseFinderPlist(MRUFile)
-                print "=============================================================================="
-            elif f == "com.apple.sidebarlists.plist":
-                MRUFile = os.path.join(root,f)
-                print "=============================================================================="
-                print "Parsing: " + MRUFile
-                ParseSidebarlistsPlist(MRUFile)
-                print "==============================================================================" 
-            elif f == "com.apple.recentitems.plist":               
-                MRUFile = os.path.join(root,f)
-                print "=============================================================================="
-                print "Parsing: " + MRUFile
-                ParseRecentItemsPlist(MRUFile)
-                print "==============================================================================" 
-            elif f.endswith(".securebookmarks.plist"):
-                MRUFile = os.path.join(root,f)
-                print "=============================================================================="
-                print "Parsing: " + MRUFile
-                ParseMSOffice2016Plist(MRUFile)
-                print "==============================================================================" 
-            elif f == "com.microsoft.office.plist":
-                MRUFile = os.path.join(root,f)
-                print "=============================================================================="
-                print "Parsing: " + MRUFile
-                ParseMSOffice2011Plist(MRUFile)
-                print 
-            elif f == "com.apple.spotlight.Shortcuts":
-                MRUFile = os.path.join(root,f)
-                print "=============================================================================="
-                print "Parsing: " + MRUFile
-                SpotlightShortcuts(MRUFile)
-                print "=============================================================================="
+            MRUFile = os.path.join(root, f)
+            print "Parsing: " + MRUFile
+
+            if os.path.isfile(MRUFile):
+                if f.endswith(".sfl") and not fnmatch.fnmatch(f,'*Favorite*.sfl') and not fnmatch.fnmatch(f,'*Project*.sfl') and not fnmatch.fnmatch(f,'*iCloudItems*.sfl'):
+                    ParseSFL(MRUFile)
+                elif f.endswith(".sfl2") and not fnmatch.fnmatch(f,'*Favorite*.sfl2') and not fnmatch.fnmatch(f,'*Project*.sfl2') and not fnmatch.fnmatch(f,'*iCloudItems*.sfl2'):
+                    ParseSFL2(MRUFile)
+                elif f.endswith("FavoriteVolumes.sfl2"):
+                    ParseSFL2_FavoriteVolumes(MRUFile)
+                elif f.endswith(".LSSharedFileList.plist"):
+                    ParseLSSharedFileListPlist(MRUFile)
+                elif f == "com.apple.finder.plist":
+                    ParseFinderPlist(MRUFile)
+                elif f == "com.apple.sidebarlists.plist":
+                    ParseSidebarlistsPlist(MRUFile)
+                elif f == "com.apple.recentitems.plist":
+                    ParseRecentItemsPlist(MRUFile)
+                elif f.endswith(".securebookmarks.plist"):
+                    ParseMSOffice2016Plist(MRUFile)
+                elif f == "com.microsoft.office.plist":
+                    ParseMSOffice2011Plist(MRUFile)
+                elif f == "com.apple.spotlight.Shortcuts":
+                    SpotlightShortcuts(MRUFile)
+                else:
+                    print "Invalid MRU file"
+            else:
+                print "ERROR: Bad file name or path: {0}".format(MRUFile)
+
+            print '=' * _hrule_width

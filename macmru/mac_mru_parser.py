@@ -28,26 +28,27 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import ccl_bplist
-from time import gmtime, strftime
-import hexdump
 import argparse
-from argparse import RawTextHelpFormatter
-import os
 import fnmatch
+import os
 import plistlib
-from mac_alias import Bookmark
-from mac_alias import Alias
-import uuid
 import sys
+import uuid
+from argparse import RawTextHelpFormatter
+from time import gmtime, strftime
 
+import hexdump
+from mac_alias import Alias
+from mac_alias import Bookmark
+
+import ccl_bplist
 from macMRUParser import __version__ as ver, _hrule_width
 
 
 def BLOBParser_human(blob):
-    #As described in:
-    #http://mac-alias.readthedocs.io/en/latest/bookmark_fmt.html
-    #http://mac-alias.readthedocs.io/en/latest/alias_fmt.html
+    # As described in:
+    # http://mac-alias.readthedocs.io/en/latest/bookmark_fmt.html
+    # http://mac-alias.readthedocs.io/en/latest/alias_fmt.html
     if args.blob_parse_human == True:
         print '-' * _hrule_width
         print "Human Readable Parsed BLOB:"
@@ -190,7 +191,6 @@ def BLOB_hex(blob):
         print '-' * _hrule_width
 
 def ParseSFL(MRUFile):
-    
     try:
         plistfile = open(MRUFile, "rb")
         plist = ccl_bplist.load(plistfile)
@@ -227,7 +227,6 @@ def ParseSFL(MRUFile):
         print "Cannot open file: " + MRUFile
  
 def ParseSFL2(MRUFile):
-    
     try:
         plistfile = open(MRUFile, "rb")
         plist = ccl_bplist.load(plistfile)

@@ -1,0 +1,60 @@
+# pycharm
+.idea/
+
+# virtual environment(s)
+.env
+.venv
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# byte-compiled / optimized / dll files
+__pycache__/
+*.py[cod]
+
+# test data / output
+test_data/
+*.icns
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+.swp.*
+.*.kate-swp
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
+Session.vim
+.netrwhist
+tags

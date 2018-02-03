@@ -11,10 +11,11 @@ Python script to parse the Most Recently Used (MRU) plist files on macOS into a 
 * `--blob_parse_human` - Parse the BLOB data in a (mostly) human-friendly format (can be used with `--csv`)
 
 ## Dependencies:      
-- ccl_bplist.py v0.21: https://github.com/cclgroupltd/ccl-bplist (not available in PyPI/pip)
-- Additional requirements in [`requirements.txt`](requirements.txt) (`pip install -r requirements.txt`)
+- Requirements to install via PyPI/pip via [`requirements.txt`](requirements.txt) (`pip install -r requirements.txt`)
   - hexdump.py v3.3: https://pypi.python.org/pypi/hexdump
   - mac_alias v2.0.6: https://pypi.python.org/pypi/mac_alias
+- ccl_bplist.py v0.21: https://github.com/cclgroupltd/ccl-bplist (not available in PyPI/pip, required version already 
+  bundled)
 
 ## Related Information:
 https://www.mac4n6.com/blog/2016/7/10/new-script-macmru-most-recently-used-plist-parser

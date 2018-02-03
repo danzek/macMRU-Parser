@@ -41,7 +41,7 @@ import hexdump
 from mac_alias import Alias
 from mac_alias import Bookmark
 
-import ccl_bplist
+from macmru.bundleddependency import ccl_bplist
 from macmru import __version__ as ver, _hrule_width
 
 

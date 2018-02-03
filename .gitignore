@@ -18,6 +18,9 @@ __pycache__/
 test_data/
 *.icns
 
+# local module
+ccl_bplist.py
+
 # macOS
 .DS_Store
 .AppleDouble

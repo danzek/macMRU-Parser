@@ -42,7 +42,7 @@ from mac_alias import Alias
 from mac_alias import Bookmark
 
 import ccl_bplist
-from macMRUParser import __version__ as ver, _hrule_width
+from macmru import __version__ as ver, _hrule_width
 
 
 def BLOBParser_human(blob):
@@ -691,7 +691,7 @@ if __name__ == "__main__":
     \n \
     \n\tAuthor:     Sarah Edwards | @iamevltwin | mac4n6.com | oompa@csh.rit.edu \
     \n\tCSV Output: Dan O\'Day     | @4n68r      | 4n68r.com  | d@4n68r.com'
-        , prog='macMRUParser.py'
+        , prog='macmru.py'
         , formatter_class=RawTextHelpFormatter)
     parser.add_argument("--csv", help="Create CSV output to file provided as parameter")
     parser.add_argument('--blob_hex', action='store_true', help="Include hex dump of Bookmark BLOBs in standard output (can very verbose!)")

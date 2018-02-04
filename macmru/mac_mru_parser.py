@@ -35,6 +35,10 @@ import sys
 from argparse import RawTextHelpFormatter
 
 from macmru import __version__ as ver, _hrule_width
+from macmru.parsers.unified import ParseSFL, ParseSFL2, ParseSFL2_FavoriteVolumes
+from macmru.parsers.spotlight import SpotlightShortcuts
+from macmru.parsers.plists import ParseFinderPlist, ParseLSSharedFileListPlist, ParseMSOffice2011Plist, \
+    ParseMSOffice2016Plist, ParseRecentItemsPlist, ParseSidebarlistsPlist
 
 
 if __name__ == "__main__":

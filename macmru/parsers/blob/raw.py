@@ -31,6 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 from mac_alias import Bookmark
+
 from macmru import _hrule_width
 
 

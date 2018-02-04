@@ -33,7 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import plistlib
 from time import gmtime, strftime
 
-from macmru.bundleddependency import ccl_bplist
+from macmru.ccl import ccl_bplist
 
 
 def ParseLSSharedFileListPlist(MRUFile, opts):

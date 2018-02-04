@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-macmru.bundleddependency package
+macmru.ccl package
 
 This is a third-party module used by macMRU Parser. Original license and
 copyright information shown below. The project repo is located at

@@ -30,7 +30,7 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from macmru.bundleddependency import ccl_bplist
+from macmru.ccl import ccl_bplist
 
 
 def ParseSFL(MRUFile, opts):

@@ -1,4 +1,4 @@
-# macMRU-Parser  ![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg)
+# macMRU-Parser  ![#](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg)  ![#](https://img.shields.io/badge/code%20status-non--functional%20(do%20not%20use)-red.svg)
 Python script to parse the Most Recently Used (MRU) plist files on macOS into a more human friendly format.
 
 ## Usage:

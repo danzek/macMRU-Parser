@@ -36,12 +36,11 @@ from macmru import _hrule_width
 
 
 def BLOB_hex(blob):
-    if args.blob_hex == True:  # todo -- move this check to caller logic
-        print '-' * _hrule_width
-        try:
-            print "Hexdump of BLOB Data: "
-            hexdump_blob =  hexdump.hexdump(blob)
-            print hexdump_blob
-        except:
-            print "No 'bookmark' Key"
-        print '-' * _hrule_width
+    print '-' * _hrule_width
+    try:
+        print "Hexdump of BLOB Data: "
+        hexdump_blob =  hexdump.hexdump(blob)
+        print hexdump_blob
+    except:
+        print "No 'bookmark' Key"
+    print '-' * _hrule_width

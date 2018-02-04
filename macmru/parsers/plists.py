@@ -34,12 +34,9 @@ import plistlib
 from time import gmtime, strftime
 
 from macmru.bundleddependency import ccl_bplist
-from macmru.parsers.blob.hex import BLOB_hex
-from macmru.parsers.blob.raw import BLOBParser_raw
-from macmru.parsers.blob.human import BLOBParser_human  # todo -- this module/function will be refactored
 
 
-def ParseLSSharedFileListPlist(MRUFile):
+def ParseLSSharedFileListPlist(MRUFile, opts):
     try:
         plistfile = open(MRUFile, "rb")
         plist = ccl_bplist.load(plistfile)
@@ -48,14 +45,15 @@ def ParseLSSharedFileListPlist(MRUFile):
         for n, item in enumerate(plist["RecentDocuments"]["CustomListItems"]):
             print "    [Item Number: " + str(n) + "] '" + item["Name"] + "'"
             blob = item["Bookmark"]
-            BLOBParser_raw(blob)
-            BLOBParser_human(blob)
-            BLOB_hex(blob)
+            csv_blob_data = opts.process_blob(blob)
+            if opts.csv_output and csv_blob_data:
+                # do something with csv data
+                pass
     except:
         print "Cannot open file: " + MRUFile
 
 
-def ParseRecentItemsPlist(MRUFile):
+def ParseRecentItemsPlist(MRUFile, opts):
     try:
         plistfile = open(MRUFile, "rb")
         plist = ccl_bplist.load(plistfile)
@@ -67,9 +65,10 @@ def ParseRecentItemsPlist(MRUFile):
                 print "    [Item Number: " + str(n) + "] '" + item["Name"] + "'"
 
                 blob = item["Bookmark"]
-                BLOBParser_raw(blob)
-                BLOBParser_human(blob)
-                BLOB_hex(blob)
+                csv_blob_data = opts.process_blob(blob)
+                if opts.csv_output and csv_blob_data:
+                    # do something with csv data
+                    pass
         except:
             print "No Recent Applications"
 
@@ -81,9 +80,10 @@ def ParseRecentItemsPlist(MRUFile):
                 print "    [Item Number: " + str(n) + "] '" + item["Name"] + "'"
 
                 blob = item["Bookmark"]
-                BLOBParser_raw(blob)
-                BLOBParser_human(blob)
-                BLOB_hex(blob)
+                csv_blob_data = opts.process_blob(blob)
+                if opts.csv_output and csv_blob_data:
+                    # do something with csv data
+                    pass
         except:
             print "No Recent Documents"
 
@@ -95,9 +95,10 @@ def ParseRecentItemsPlist(MRUFile):
                 print "    [Item Number: " + str(n) + "] '" + item["Name"] + "'"
 
                 blob = item["Bookmark"]
-                BLOBParser_raw(blob)
-                BLOBParser_human(blob)
-                BLOB_hex(blob)
+                csv_blob_data = opts.process_blob(blob)
+                if opts.csv_output and csv_blob_data:
+                    # do something with csv data
+                    pass
         except:
             print 'No Recent Servers'
 
@@ -116,9 +117,10 @@ def ParseRecentItemsPlist(MRUFile):
             for n, item in enumerate(plist["Applications"]["CustomListItems"]):
                 print "    [Item Number: " + str(n) + "] '" + item["Name"] + "'"
                 blob = item["Alias"]
-                BLOBParser_raw(blob)
-                BLOBParser_human(blob)
-                BLOB_hex(blob)
+                csv_blob_data = opts.process_blob(blob)
+                if opts.csv_output and csv_blob_data:
+                    # do something with csv data
+                    pass
 
         except:
             print "No Recent Applications (Legacy)"
@@ -130,9 +132,10 @@ def ParseRecentItemsPlist(MRUFile):
             for n, item in enumerate(plist["Documents"]["CustomListItems"]):
                 print "    [Item Number: " + str(n) + "] '" + item["Name"] + "'"
                 blob = item["Alias"]
-                BLOBParser_raw(blob)
-                BLOBParser_human(blob)
-                BLOB_hex(blob)
+                csv_blob_data = opts.process_blob(blob)
+                if opts.csv_output and csv_blob_data:
+                    # do something with csv data
+                    pass
         except:
             print "No Recent Documents (Legacy)"
 
@@ -143,16 +146,17 @@ def ParseRecentItemsPlist(MRUFile):
             for n, item in enumerate(plist["Servers"]["CustomListItems"]):
                 print "    [Item Number: " + str(n) + "] '" + item["Name"] + "'"
                 blob = item["Alias"]
-                BLOBParser_raw(blob)
-                BLOBParser_human(blob)
-                BLOB_hex(blob)
+                csv_blob_data = opts.process_blob(blob)
+                if opts.csv_output and csv_blob_data:
+                    # do something with csv data
+                    pass
         except:
             print 'No Recent Servers (Legacy)'
     except:
         print "Cannot open file: " + MRUFile
 
 
-def ParseFinderPlist(MRUFile):
+def ParseFinderPlist(MRUFile, opts):
     try:
         plistfile = open(MRUFile, "rb")
         plist = ccl_bplist.load(plistfile)
@@ -165,17 +169,19 @@ def ParseFinderPlist(MRUFile):
 
                 try:
                     blob = item["file-bookmark"]
-                    BLOBParser_raw(blob)
-                    BLOBParser_human(blob)
-                    BLOB_hex(blob)
+                    csv_blob_data = opts.process_blob(blob)
+                    if opts.csv_output and csv_blob_data:
+                        # do something with csv data
+                        pass
                 except:
                     pass
 
                 try:
                     blob = item["file-data"]["_CFURLAliasData"]
-                    BLOBParser_raw(blob)
-                    BLOBParser_human(blob)
-                    BLOB_hex(blob)
+                    csv_blob_data = opts.process_blob(blob)
+                    if opts.csv_output and csv_blob_data:
+                        # do something with csv data
+                        pass
                 except:
                     pass
         except:
@@ -203,7 +209,7 @@ def ParseFinderPlist(MRUFile):
         print "Cannot open file: " + MRUFile
 
 
-def ParseSidebarlistsPlist(MRUFile):
+def ParseSidebarlistsPlist(MRUFile, opts):
     try:
         plistfile = open(MRUFile, "rb")
         plist = ccl_bplist.load(plistfile)
@@ -231,9 +237,10 @@ def ParseSidebarlistsPlist(MRUFile):
 
                 try:
                     blob = plist["systemitems"]['VolumesList'][n]['Alias']
+                    # todo -- why were first two commented out?
                     # BLOBParser_raw(blob)
                     # BLOBParser_human(blob)
-                    BLOB_hex(blob)
+                    # BLOB_hex(blob)  # todo -- I commented this out, refactor if only this is needed
                 except:
                     pass
         except:
@@ -262,9 +269,10 @@ def ParseSidebarlistsPlist(MRUFile):
 
                 try:
                     blob = plist["systemitems"]['VolumesList'][n]['Alias']
+                    # todo -- why were first two commented out?
                     # BLOBParser_raw(blob)
                     # BLOBParser_human(blob)
-                    BLOB_hex(blob)
+                    # BLOB_hex(blob)  # todo -- I commented this out, refactor if only this is needed
                 except:
                     pass
         except:
@@ -273,7 +281,7 @@ def ParseSidebarlistsPlist(MRUFile):
         print "Cannot open file: " + MRUFile
 
 
-def ParseMSOffice2016Plist(MRUFile):
+def ParseMSOffice2016Plist(MRUFile, opts):
     try:
         plistfile = plistlib.readPlist(MRUFile)
         for n, item in enumerate(plistfile):
@@ -285,14 +293,15 @@ def ParseMSOffice2016Plist(MRUFile):
 
             bookmarkdata = plistfile[item]["kBookmarkDataKey"]
             for attr, blob in bookmarkdata.__dict__.iteritems():
-                BLOBParser_raw(blob)
-                BLOBParser_human(blob)
-                BLOB_hex(blob)
+                csv_blob_data = opts.process_blob(blob)
+                if opts.csv_output and csv_blob_data:
+                    # do something with csv data
+                    pass
     except:
         print "Cannot open file: " + MRUFile
 
 
-def ParseMSOffice2011Plist(MRUFile):
+def ParseMSOffice2011Plist(MRUFile, opts):
     try:
         plistfile = open(MRUFile, "rb")
         plist = ccl_bplist.load(plistfile)
@@ -318,9 +327,10 @@ def ParseMSOffice2011Plist(MRUFile):
                 print "    [Item Number: " + str(n) + "] - Access Date (UTC): " + accessdate + ""
 
                 blob = item["File Alias"]
-                BLOBParser_raw(blob)
-                BLOBParser_human(blob)
-                BLOB_hex(blob)
+                csv_blob_data = opts.process_blob(blob)
+                if opts.csv_output and csv_blob_data:
+                    # do something with csv data
+                    pass
         except:
             print "    No key for 14\File MRU\MSWD"
     except:
@@ -336,9 +346,10 @@ def ParseMSOffice2011Plist(MRUFile):
                 print "    [Item Number: " + str(n) + "] - Access Date (UTC): " + accessdate + ""
 
                 blob = item["File Alias"]
-                BLOBParser_raw(blob)
-                BLOBParser_human(blob)
-                BLOB_hex(blob)
+                csv_blob_data = opts.process_blob(blob)
+                if opts.csv_output and csv_blob_data:
+                    # do something with csv data
+                    pass
         except:
             print "    No key for 14\File MRU\XCEL"
     except:
@@ -354,9 +365,10 @@ def ParseMSOffice2011Plist(MRUFile):
                 print "    [Item Number: " + str(n) + "] - Access Date (UTC): " + accessdate + ""
 
                 blob = item["File Alias"]
-                BLOBParser_raw(blob)
-                BLOBParser_human(blob)
-                BLOB_hex(blob)
+                csv_blob_data = opts.process_blob(blob)
+                if opts.csv_output and csv_blob_data:
+                    # do something with csv data
+                    pass
         except:
             print "    No key for 14\File MRU\PPT3"
     except:

@@ -33,6 +33,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import os
 import sys
 
+from macmru.parsers.blob.hex import BLOB_hex
+from macmru.parsers.blob.raw import BLOBParser_raw
+from macmru.parsers.blob.human import BLOBParser_human  # todo -- this module/function will be refactored
+
 
 class GlobalOptions(object):
     def __init__(self, mru_directory_path, csv_output_path, blob_parse_hex, blob_parse_raw, blob_parse_human):
@@ -54,3 +58,18 @@ class GlobalOptions(object):
         if parameter and len(parameter.strip()) > 0:
             self.csv_output = True
         return parameter
+
+    def process_blob(self, blob):
+        self._process_blob_non_hr(blob)
+        return self._process_blob_hr(blob)
+
+    def _process_blob_non_hr(self, blob):
+        # non human-readable (hr)
+        if self.blob_parse_raw:
+            BLOBParser_raw(blob)
+        if self.blob_parse_hex:
+            BLOB_hex(blob)
+
+    def _process_blob_hr(self, blob):
+        if self.blob_parse_human:
+            BLOBParser_human(blob, self.csv_output)

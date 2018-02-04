@@ -35,26 +35,25 @@ from macmru import _hrule_width
 
 
 def BLOBParser_raw(blob):
-    if args.blob_parse_raw == True:  # todo -- move this check to caller logic
-        print '-' * _hrule_width
-        try:
-            b = Bookmark.from_bytes(blob)
-            print "Raw Parsed Bookmark BLOB:"
-            print b
-        except:
-            pass
+    print '-' * _hrule_width
+    try:
+        b = Bookmark.from_bytes(blob)
+        print "Raw Parsed Bookmark BLOB:"
+        print b
+    except:
+        pass
 
-        try:
-            a = Alias.from_bytes(blob)
-            print "Raw Parsed Alias BLOB:"
-            print a.version
-            print a.target
-            print a.volume
-            print a.extra
-            print a.appinfo
-            print a.AppleShareInfo.server
-            print a.AppleShareInfo.user
-            print a.AppleShareInfo.zone
-        except:
-            pass
-        print '-' * _hrule_width
+    try:
+        a = Alias.from_bytes(blob)
+        print "Raw Parsed Alias BLOB:"
+        print a.version
+        print a.target
+        print a.volume
+        print a.extra
+        print a.appinfo
+        print a.AppleShareInfo.server
+        print a.AppleShareInfo.user
+        print a.AppleShareInfo.zone
+    except:
+        pass
+    print '-' * _hrule_width

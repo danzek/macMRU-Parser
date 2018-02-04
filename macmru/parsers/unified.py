@@ -31,12 +31,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 from macmru.bundleddependency import ccl_bplist
-from macmru.parsers.blob.hex import BLOB_hex
-from macmru.parsers.blob.raw import BLOBParser_raw
-from macmru.parsers.blob.human import BLOBParser_human  # todo -- this module/function will be refactored
 
 
-def ParseSFL(MRUFile):
+def ParseSFL(MRUFile, opts):
     try:
         plistfile = open(MRUFile, "rb")
         plist = ccl_bplist.load(plistfile)
@@ -67,14 +64,15 @@ def ParseSFL(MRUFile):
                 # print '-' * _hrule_width
                 if "LSSharedFileList.RecentHosts" not in MRUFile:
                     blob = item["bookmark"]
-                    BLOBParser_raw(blob)
-                    BLOBParser_human(blob)
-                    BLOB_hex(blob)
+                    csv_blob_data = opts.process_blob(blob)
+                    if opts.csv_output and csv_blob_data:
+                        # do something with csv data
+                        pass
     except:
         print "Cannot open file: " + MRUFile
 
 
-def ParseSFL2(MRUFile):
+def ParseSFL2(MRUFile, opts):
     try:
         plistfile = open(MRUFile, "rb")
         plist = ccl_bplist.load(plistfile)
@@ -116,14 +114,15 @@ def ParseSFL2(MRUFile):
                 # print attributes["CustomItemProperties"]
                 if "LSSharedFileList.RecentHosts" not in MRUFile:
                     blob = attributes["Bookmark"]
-                    BLOBParser_raw(blob)
-                    BLOBParser_human(blob)
-                    BLOB_hex(blob)
+                    csv_blob_data = opts.process_blob(blob)
+                    if opts.csv_output and csv_blob_data:
+                        # do something with csv data
+                        pass
     except:
         print "Cannot open file: " + MRUFile
 
 
-def ParseSFL2_FavoriteVolumes(MRUFile):
+def ParseSFL2_FavoriteVolumes(MRUFile, opts):
     try:
         plistfile = open(MRUFile, "rb")
         plist = ccl_bplist.load(plistfile)
@@ -174,8 +173,9 @@ def ParseSFL2_FavoriteVolumes(MRUFile):
 
                 if "LSSharedFileList.RecentHosts" not in MRUFile:
                     blob = attributes["Bookmark"]
-                    BLOBParser_raw(blob)
-                    BLOBParser_human(blob)
-                    BLOB_hex(blob)
+                    csv_blob_data = opts.process_blob(blob)
+                    if opts.csv_output and csv_blob_data:
+                        # do something with csv data
+                        pass
     except:
         print "Cannot open file: " + MRUFile

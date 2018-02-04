@@ -33,7 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import plistlib
 
 
-def SpotlightShortcuts(MRUFile):
+def SpotlightShortcuts(MRUFile, opts):
     try:
         plistfile = plistlib.readPlist(MRUFile)
         print "[Spotlight Shortcuts are shown with a UTC timestamp]"

@@ -78,7 +78,10 @@ if __name__ == "__main__":
 
     print "###### MacMRU Parser v{0} ######".format(ver)
 
-    global_options = GlobalOptions(args.MRU_DIR, args.csv, args.blob_parse_hex, args.blob_parse_raw, args.blob_parse_human)
+    global_options = GlobalOptions(args.MRU_DIR, args.csv,
+                                   args.blob_parse_hex,
+                                   args.blob_parse_raw,
+                                   args.blob_parse_human)
 
     for root, dirs, filenames in os.walk(global_options.path):
         for f in filenames:
@@ -87,25 +90,25 @@ if __name__ == "__main__":
 
             if os.path.isfile(MRUFile):
                 if f.endswith(".sfl") and not fnmatch.fnmatch(f,'*Favorite*.sfl') and not fnmatch.fnmatch(f,'*Project*.sfl') and not fnmatch.fnmatch(f,'*iCloudItems*.sfl'):
-                    ParseSFL(MRUFile)
+                    ParseSFL(MRUFile, global_options)
                 elif f.endswith(".sfl2") and not fnmatch.fnmatch(f,'*Favorite*.sfl2') and not fnmatch.fnmatch(f,'*Project*.sfl2') and not fnmatch.fnmatch(f,'*iCloudItems*.sfl2'):
-                    ParseSFL2(MRUFile)
+                    ParseSFL2(MRUFile, global_options)
                 elif f.endswith("FavoriteVolumes.sfl2"):
-                    ParseSFL2_FavoriteVolumes(MRUFile)
+                    ParseSFL2_FavoriteVolumes(MRUFile, global_options)
                 elif f.endswith(".LSSharedFileList.plist"):
-                    ParseLSSharedFileListPlist(MRUFile)
+                    ParseLSSharedFileListPlist(MRUFile, global_options)
                 elif f == "com.apple.finder.plist":
-                    ParseFinderPlist(MRUFile)
+                    ParseFinderPlist(MRUFile, global_options)
                 elif f == "com.apple.sidebarlists.plist":
-                    ParseSidebarlistsPlist(MRUFile)
+                    ParseSidebarlistsPlist(MRUFile, global_options)
                 elif f == "com.apple.recentitems.plist":
-                    ParseRecentItemsPlist(MRUFile)
+                    ParseRecentItemsPlist(MRUFile, global_options)
                 elif f.endswith(".securebookmarks.plist"):
-                    ParseMSOffice2016Plist(MRUFile)
+                    ParseMSOffice2016Plist(MRUFile, global_options)
                 elif f == "com.microsoft.office.plist":
-                    ParseMSOffice2011Plist(MRUFile)
+                    ParseMSOffice2011Plist(MRUFile, global_options)
                 elif f == "com.apple.spotlight.Shortcuts":
-                    SpotlightShortcuts(MRUFile)
+                    SpotlightShortcuts(MRUFile, global_options)
                 else:
                     print "Invalid MRU file"
             else:

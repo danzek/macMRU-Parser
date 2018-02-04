@@ -37,7 +37,6 @@ import uuid
 from argparse import RawTextHelpFormatter
 from time import gmtime, strftime
 
-import hexdump
 from mac_alias import Alias
 from mac_alias import Bookmark
 
@@ -154,41 +153,6 @@ def BLOBParser_human(blob):
             pass
         print '-' * _hrule_width
 
-def BLOBParser_raw(blob):
-    if args.blob_parse_raw == True:
-        print '-' * _hrule_width
-        try:
-            b = Bookmark.from_bytes(blob)
-            print "Raw Parsed Bookmark BLOB:"
-            print b
-        except:
-            pass
-
-        try:
-            a = Alias.from_bytes(blob)
-            print "Raw Parsed Alias BLOB:"
-            print a.version
-            print a.target
-            print a.volume
-            print a.extra
-            print a.appinfo
-            print a.AppleShareInfo.server
-            print a.AppleShareInfo.user
-            print a.AppleShareInfo.zone
-        except:
-            pass
-        print '-' * _hrule_width
-
-def BLOB_hex(blob):
-    if args.blob_hex == True:
-        print '-' * _hrule_width
-        try:
-            print "Hexdump of BLOB Data: "
-            hexdump_blob =  hexdump.hexdump(blob)
-            print hexdump_blob
-        except:
-            print "No 'bookmark' Key"
-        print '-' * _hrule_width
 
 def ParseSFL(MRUFile):
     try:
@@ -704,7 +668,7 @@ if __name__ == "__main__":
 
     print "###### MacMRU Parser v{0} ######".format(ver)
 
-    # args validation
+    # validate MRU directory
     if not MRUDirectory or MRUDirectory is None or not os.path.exists(MRUDirectory):
         print "Invalid file path (path provided does not exist)"
         sys.exit(1)

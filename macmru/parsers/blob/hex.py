@@ -1,15 +1,11 @@
 #!/usr/bin/env python
 """
-macmru.bundleddependency package
+macmru.parsers.blob.hex module
 
-This is a third-party module used by macMRU Parser. Original license and
-copyright information shown below. The project repo is located at
-https://github.com/cclgroupltd/ccl-bplist
-
-----------------------------------------------------------------------------------
-
-Copyright (c) 2012-2016, CCL Forensics
+Copyright (c) 2017, Station X Labs, LLC
 All rights reserved.
+
+Contributions adding CSV output by Dan O'Day <d@4n68r.com>
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -18,14 +14,14 @@ modification, are permitted provided that the following conditions are met:
     * Redistributions in binary form must reproduce the above copyright
       notice, this list of conditions and the following disclaimer in the
       documentation and/or other materials provided with the distribution.
-    * Neither the name of the CCL Forensics nor the
+    * Neither the name of the Station X Labs, LLC nor the
       names of its contributors may be used to endorse or promote products
       derived from this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL CCL FORENSICS BE LIABLE FOR ANY
+DISCLAIMED. IN NO EVENT SHALL STATION X LABS, LLC BE LIABLE FOR ANY
 DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
 LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -33,3 +29,19 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
+
+import hexdump
+
+from macmru import _hrule_width
+
+
+def BLOB_hex(blob):
+    if args.blob_hex == True:  # todo -- move this check to caller logic
+        print '-' * _hrule_width
+        try:
+            print "Hexdump of BLOB Data: "
+            hexdump_blob =  hexdump.hexdump(blob)
+            print hexdump_blob
+        except:
+            print "No 'bookmark' Key"
+        print '-' * _hrule_width

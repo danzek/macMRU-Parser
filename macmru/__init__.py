@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 """
+macmru package
+
 Copyright (c) 2017, Station X Labs, LLC
 All rights reserved.
 

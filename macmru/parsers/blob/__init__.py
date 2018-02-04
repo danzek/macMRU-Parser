@@ -33,9 +33,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 from collections import OrderedDict
 
 
-# =====================================================#
-# Human readable helper functions and global variables #
-# =====================================================#
+# =============================== #
+# Human readable global variables #
+# =============================== #
 
 _blob_bookmark_human_readable_report_offsets = OrderedDict([
     ("Volume Name", 0x2010),

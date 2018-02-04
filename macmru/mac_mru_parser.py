@@ -31,10 +31,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import argparse
 import fnmatch
 import os
-import sys
 from argparse import RawTextHelpFormatter
 
 from macmru import __version__ as ver, _hrule_width
+from macmru.globalopts import GlobalOptions
 from macmru.parsers.unified import ParseSFL, ParseSFL2, ParseSFL2_FavoriteVolumes
 from macmru.parsers.spotlight import SpotlightShortcuts
 from macmru.parsers.plists import ParseFinderPlist, ParseLSSharedFileListPlist, ParseMSOffice2011Plist, \
@@ -76,22 +76,11 @@ if __name__ == "__main__":
     parser.add_argument('MRU_DIR')
     args = parser.parse_args()
 
-    MRUDirectory = args.MRU_DIR
-
     print "###### MacMRU Parser v{0} ######".format(ver)
 
-    # validate MRU directory
-    if not MRUDirectory or MRUDirectory is None or not os.path.exists(MRUDirectory):
-        print "Invalid file path (path provided does not exist)"
-        sys.exit(1)
+    global_options = GlobalOptions(args.MRU_DIR, args.csv, args.blob_parse_hex, args.blob_parse_raw, args.blob_parse_human)
 
-    csv_output = False
-    csv_path = None
-    if args.csv and args.csv is not None and len(args.csv.strip()) > 0:
-        csv_output = True
-        csv_path = args.csv
-
-    for root, dirs, filenames in os.walk(MRUDirectory):
+    for root, dirs, filenames in os.walk(global_options.path):
         for f in filenames:
             MRUFile = os.path.join(root, f)
             print "Parsing: " + MRUFile
